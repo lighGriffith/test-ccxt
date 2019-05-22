@@ -38,5 +38,33 @@ router.get('/binanceovlhc/:monnaie', async (req, res) => {
     res.status(400).send(error.message)
   }
 })
+router.get('/mybalance', async (req, res) => {
+  console.log('Got a request /mybalance')
+  try {
+    const _response = await sample.getMyBalance();
+    res.send(_response)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+})
 
+router.get('/mybuys', async (req, res) => {
+  console.log('Got a request /mybuys')
+  try {
+    const _response = await sample.getMyBuys();
+    res.send(_response)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+})
+
+router.get('/mysells', async (req, res) => {
+  console.log('Got a request /mysells')
+  try {
+    const _response = await sample.getMySells();
+    res.send(_response)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+})
 module.exports = router

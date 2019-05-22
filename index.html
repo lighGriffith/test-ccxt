@@ -9,12 +9,20 @@
     <link rel="shortcut icon" href="" type="image/vnd.microsoft.icon">
   </head>
   <body>
+    <div class="app1">
+      <button @click="getMySells()">Sells</button>
+      <button @click="getMyBuys()">Buys</button>
+      <button @click="getMyBalance()">Balance</button>
+      <employee-table
+      :mydatas="mydatas"
+      />
+    </div>
     <div class="app2">
-      <line-chart></line-chart>
       <button @click="getBinanceOvlhc()">Binance</button>
-
+      <line-chart></line-chart>
     </div>
     <v-select class="app3" @input="RefreshGrid"  :options="options"></v-select>
+
   </body>
   <script type="text/javascript" src='./dist/bundle.js'></script>
 </html>

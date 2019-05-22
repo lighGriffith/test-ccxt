@@ -4,6 +4,7 @@ import VueCharts from 'vue-chartjs'
 import {  Line } from 'vue-chartjs'
 import moment from 'moment'
 import vSelect from 'vue-select'
+import EmployeeTable from './Component/Table.vue'
 // CSS
 require('css/main.scss')
 require("vue-select/dist/vue-select.css");
@@ -42,7 +43,6 @@ var vm = new Vue({
   el: '.app2',
   methods: {
      getBinanceOvlhc()  {
-       console.log(monnaieSelected);
       this.$http.get('http://localhost:3001/api/sample/binanceovlhc/'+(monnaieSelected?monnaieSelected:"BTC_USDT")).then((res) => {
         var labels=[];
         var values=[];
@@ -67,6 +67,7 @@ var vm = new Vue({
 })
 Vue.component('v-select', vSelect)
 
+
 new Vue({
   el: '.app3',
   data: {
@@ -77,5 +78,54 @@ new Vue({
         monnaieSelected=monnaie;
         console.log(monnaieSelected);
     }
+   }
+})
+
+new Vue({
+  el: '.app1',
+  components: {
+    'employee-table': EmployeeTable,
+  },
+  data() {
+    return {
+      mydatas: {
+        buys:[],
+        sells:[],
+        balances:[]
+      }
+    }
+  },
+  methods: {
+     getMySells: function () {
+       this.$http.get('http://localhost:3001/api/sample/mysells').then((res) => {
+         this.mydatas.sells=[];
+         for(let ind in res.body){
+           let crypto=res.body[ind];
+           for (let ind2 in crypto){
+             this.mydatas.sells.push(crypto[ind2]);
+           }
+         }
+         console.log(this.mydatas.sells)
+       })
+      },
+      getMyBuys: function () {
+        this.$http.get('http://localhost:3001/api/sample/mybuys').then((res) => {
+          console.log(res);
+          this.mydatas.buys=[];
+          for(let ind in res.body){
+            let crypto=res.body[ind];
+            for (let ind2 in crypto){
+
+              this.mydatas.buys.push(crypto[ind2]);
+            }
+          }
+        })
+       },
+       getMyBalance: function () {
+         this.$http.get('http://localhost:3001/api/sample/mybalance').then((res) => {
+           console.log(res);
+           this.mydatas.balances=res.body;
+         })
+        },
    }
 })
